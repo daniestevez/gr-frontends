@@ -1,10 +1,10 @@
 #!/usr/bin/env python2
 ##################################################
 # GNU Radio Python Flow Graph
-# Title: WAV 48KHz file real time streamer (little-endian platform)
+# Title: WAV 48KHz file streamer 
 # Author: Daniel Estevez
-# Description: Streams a WAV 48kHz file in real time
-# Generated: Fri Aug 26 18:18:02 2016
+# Description: Streams a WAV 48kHz file
+# Generated: Fri Aug 26 21:05:18 2016
 ##################################################
 
 from gnuradio import blocks
@@ -14,10 +14,10 @@ from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
 
-class wav_48kHz_realtime_le(gr.top_block):
+class wav_48kHz(gr.top_block):
 
     def __init__(self, input_file="", port=7355, destination="localhost"):
-        gr.top_block.__init__(self, "WAV 48KHz file real time streamer (little-endian platform)")
+        gr.top_block.__init__(self, "WAV 48KHz file streamer ")
 
         ##################################################
         # Parameters
@@ -70,6 +70,6 @@ if __name__ == '__main__':
     parser.add_option("", "--destination", dest="destination", type="string", default="localhost",
         help="Set localhost [default=%default]")
     (options, args) = parser.parse_args()
-    tb = wav_48kHz_realtime_le(input_file=options.input_file, port=options.port, destination=options.destination)
+    tb = wav_48kHz(input_file=options.input_file, port=options.port, destination=options.destination)
     tb.start()
     tb.wait()
