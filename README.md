@@ -21,7 +21,30 @@ on how to specify the parameters.
 
 ## Supported streamers
 
-### WAV file streamers
+### SDR hardware
+
+The goal is to support as many different SDR hardware as possible. However, I
+can't test streamers for hardware I don't have. It is easy to modify an existing
+streamer to use with another SDR hardware supported by GNUradio. Then, it can be
+included in gr-frontends.
+
+The streamers come in several different receive modes:
+
+  * `usb` This is like a normal USB receiver. The passband is 3kHz and the
+    signal is tuned to 1.5kHz inside the passband. Use this for signals such as
+    1k2 BPSK or to record CW audio.
+  * `usb_wide` This is a wide USB receiver. The passband is 24kHz and the signal
+    is tuned to 12kHz inside the passband. Use this for signals such as 9k6
+    BPSK.
+  * `fm` This is an FM demodulator. Use this for any kind of FSK signals.
+
+List of supported hardware:
+
+  * `rtlsdr` Receivers using and RTL-SDR chipset.
+
+### Recordings
+
+#### WAV file streamers
 
 The audio streamers are designed to play back and stream an audio wav file.
 
@@ -34,7 +57,7 @@ You have to choose the appropriate sampling rate. The available streamers are th
  the streamers will only play the file once, but you can edit them with
  `gnuradio-companion` and set the WAV file to repeat.
  
-### Audio streamers
+#### Audio streamers
 
 The audio streamers are designed to stream from the audio system: from a
 soundcard (to connect to a conventional receiver) or a virtual audio cable (to
@@ -47,4 +70,3 @@ The available audio streamers are the following:
 
 *Hint:* In Linux you can use pulseaudio and pavucontrol or `snd-aloop` as a
  virtual audio cable between different applications.
- 
