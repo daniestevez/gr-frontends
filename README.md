@@ -45,6 +45,8 @@ to install this out-of-tree module if you want to use Doppler correction).
 List of supported hardware:
 
   * `rtlsdr` Receivers using an RTL-SDR chipset.
+  * `fcdpp` FUNcube Dongle Pro+. It is necessary to install
+    [gr-fcdproplus](https://github.com/dl1ksv/gr-fcdproplus).
 
 ### Recordings
 
