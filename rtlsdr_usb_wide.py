@@ -5,7 +5,7 @@
 # Title: Wide SSB receiver for an RTL-SDR device
 # Author: Daniel Estevez
 # Description: Receives with an RTL-SDR and streams the wide USB audio (24kHz filter)
-# Generated: Sun Aug 28 09:47:39 2016
+# Generated: Sun Aug 28 12:54:16 2016
 ##################################################
 
 from gnuradio import analog
@@ -64,7 +64,6 @@ class rtlsdr_usb_wide(gr.top_block):
         self.gpredict_doppler_0 = gpredict.doppler(self.set_doppler_freq, "localhost", 4532, False)
         self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccc(50, (firdes.low_pass(1, samp_rate, 24000, 500)), doppler_freq-freq+offset, samp_rate)
         self.blocks_udp_sink_0 = blocks.udp_sink(gr.sizeof_short*1, destination, port, 1472, True)
-        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_short*1, 48000,True)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self.blocks_float_to_short_0 = blocks.float_to_short(1, 32767)
         self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
@@ -75,9 +74,8 @@ class rtlsdr_usb_wide(gr.top_block):
         ##################################################
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 0))    
         self.connect((self.blocks_complex_to_real_0, 0), (self.blocks_float_to_short_0, 0))    
-        self.connect((self.blocks_float_to_short_0, 0), (self.blocks_throttle_0, 0))    
+        self.connect((self.blocks_float_to_short_0, 0), (self.blocks_udp_sink_0, 0))    
         self.connect((self.blocks_multiply_xx_0, 0), (self.blocks_complex_to_real_0, 0))    
-        self.connect((self.blocks_throttle_0, 0), (self.blocks_udp_sink_0, 0))    
         self.connect((self.freq_xlating_fir_filter_xxx_0, 0), (self.blocks_multiply_xx_0, 1))    
         self.connect((self.osmosdr_source_0, 0), (self.freq_xlating_fir_filter_xxx_0, 0))    
 
