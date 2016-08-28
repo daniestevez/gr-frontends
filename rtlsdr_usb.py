@@ -5,7 +5,7 @@
 # Title: SSB receiver for an RTL-SDR device
 # Author: Daniel Estevez
 # Description: Receives with an RTL-SDR and streams the USB audio (3kHz filter)
-# Generated: Sun Aug 28 12:54:19 2016
+# Generated: Sun Aug 28 13:02:40 2016
 ##################################################
 
 from gnuradio import analog
@@ -23,7 +23,7 @@ import time
 
 class rtlsdr_usb(gr.top_block):
 
-    def __init__(self, bb_gain=20, destination="localhost", freq=0, freq_corr=0, gpredict_port=4532, if_gain=20, offset=50e3, port=7355, rf_gain=40, samp_rate=2.4e6):
+    def __init__(self, bb_gain=20, destination="localhost", freq=0, freq_corr=0, gpredict_port=4532, if_gain=20, offset=50e3, port=7355, rf_gain=40):
         gr.top_block.__init__(self, "SSB receiver for an RTL-SDR device")
 
         ##################################################
@@ -38,11 +38,11 @@ class rtlsdr_usb(gr.top_block):
         self.offset = offset
         self.port = port
         self.rf_gain = rf_gain
-        self.samp_rate = samp_rate
 
         ##################################################
         # Variables
         ##################################################
+        self.samp_rate = samp_rate = 2.4e6
         self.doppler_freq = doppler_freq = freq
 
         ##################################################
@@ -188,9 +188,6 @@ def argument_parser():
     parser.add_option(
         "", "--rf-gain", dest="rf_gain", type="eng_float", default=eng_notation.num_to_str(40),
         help="Set RF gain [default=%default]")
-    parser.add_option(
-        "-s", "--samp-rate", dest="samp_rate", type="eng_float", default=eng_notation.num_to_str(2.4e6),
-        help="Set sampling rate [default=%default]")
     return parser
 
 
@@ -198,7 +195,7 @@ def main(top_block_cls=rtlsdr_usb, options=None):
     if options is None:
         options, _ = argument_parser().parse_args()
 
-    tb = top_block_cls(bb_gain=options.bb_gain, destination=options.destination, freq=options.freq, freq_corr=options.freq_corr, gpredict_port=options.gpredict_port, if_gain=options.if_gain, offset=options.offset, port=options.port, rf_gain=options.rf_gain, samp_rate=options.samp_rate)
+    tb = top_block_cls(bb_gain=options.bb_gain, destination=options.destination, freq=options.freq, freq_corr=options.freq_corr, gpredict_port=options.gpredict_port, if_gain=options.if_gain, offset=options.offset, port=options.port, rf_gain=options.rf_gain)
     tb.start()
     tb.wait()
 
