@@ -38,6 +38,10 @@ The streamers come in several different receive modes:
     BPSK.
   * `fm` This is an FM demodulator. Use this for any kind of FSK signals.
 
+All the hardware streamers support Doppler correction with Gpredict and
+[gr-gpredict-doppler](https://github.com/wnagele/gr-gpredict-doppler) (you need
+to install this out-of-tree module if you want to use Doppler correction).
+
 List of supported hardware:
 
   * `rtlsdr` Receivers using and RTL-SDR chipset.
