@@ -44,7 +44,7 @@ to install this out-of-tree module if you want to use Doppler correction).
 
 List of supported hardware:
 
-  * `rtlsdr` Receivers using and RTL-SDR chipset.
+  * `rtlsdr` Receivers using an RTL-SDR chipset.
 
 ### Recordings
 
