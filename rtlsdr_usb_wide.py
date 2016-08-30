@@ -5,7 +5,7 @@
 # Title: Wide SSB receiver for an RTL-SDR device
 # Author: Daniel Estevez
 # Description: Receives with an RTL-SDR and streams the wide USB audio (24kHz filter)
-# Generated: Sun Aug 28 13:02:37 2016
+# Generated: Tue Aug 30 12:53:21 2016
 ##################################################
 
 from gnuradio import analog
@@ -62,7 +62,7 @@ class rtlsdr_usb_wide(gr.top_block):
         self.osmosdr_source_0.set_bandwidth(0, 0)
           
         self.gpredict_doppler_0 = gpredict.doppler(self.set_doppler_freq, "localhost", 4532, False)
-        self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccc(50, (firdes.low_pass(1, samp_rate, 24000, 500)), doppler_freq-freq+offset, samp_rate)
+        self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccc(50, (firdes.low_pass(1, samp_rate, 12000, 500)), doppler_freq-freq+offset, samp_rate)
         self.blocks_udp_sink_0 = blocks.udp_sink(gr.sizeof_short*1, destination, port, 1472, True)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self.blocks_float_to_short_0 = blocks.float_to_short(1, 32767)
@@ -148,7 +148,7 @@ class rtlsdr_usb_wide(gr.top_block):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.osmosdr_source_0.set_sample_rate(self.samp_rate)
-        self.freq_xlating_fir_filter_xxx_0.set_taps((firdes.low_pass(1, self.samp_rate, 24000, 500)))
+        self.freq_xlating_fir_filter_xxx_0.set_taps((firdes.low_pass(1, self.samp_rate, 12000, 500)))
 
     def get_doppler_freq(self):
         return self.doppler_freq

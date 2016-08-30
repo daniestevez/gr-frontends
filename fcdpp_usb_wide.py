@@ -5,7 +5,7 @@
 # Title: Wide SSB receiver for a FUNcube Dongle Pro+ device
 # Author: Daniel Estevez
 # Description: Receives with a FUNcube Dongle Pro+ and streams the wide USB audio (24kHz filter)
-# Generated: Sun Aug 28 12:59:32 2016
+# Generated: Tue Aug 30 12:53:23 2016
 ##################################################
 
 from gnuradio import analog
@@ -48,7 +48,7 @@ class fcdpp_usb_wide(gr.top_block):
         # Blocks
         ##################################################
         self.gpredict_doppler_0 = gpredict.doppler(self.set_doppler_freq, "localhost", 4532, False)
-        self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccc(4, (firdes.low_pass(1, samp_rate, 24000, 500)), doppler_freq-freq+offset, samp_rate)
+        self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccc(4, (firdes.low_pass(1, samp_rate, 12000, 500)), doppler_freq-freq+offset, samp_rate)
         self.fcdproplus_fcdproplus_0 = fcdproplus.fcdproplus("",1)
         self.fcdproplus_fcdproplus_0.set_lna(0)
         self.fcdproplus_fcdproplus_0.set_mixer_gain(0)
@@ -136,7 +136,7 @@ class fcdpp_usb_wide(gr.top_block):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.freq_xlating_fir_filter_xxx_0.set_taps((firdes.low_pass(1, self.samp_rate, 24000, 500)))
+        self.freq_xlating_fir_filter_xxx_0.set_taps((firdes.low_pass(1, self.samp_rate, 12000, 500)))
 
     def get_doppler_freq(self):
         return self.doppler_freq
