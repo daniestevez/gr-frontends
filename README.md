@@ -40,7 +40,9 @@ The streamers come in several different receive modes:
 
 All the hardware streamers support Doppler correction with Gpredict and
 [gr-gpredict-doppler](https://github.com/wnagele/gr-gpredict-doppler) (you need
-to install this out-of-tree module if you want to use Doppler correction).
+to install this out-of-tree module if you want to use Doppler correction). To
+use this, you should set in Gpredict as downlink frequency the frequency of
+interest that you want to receive.
 
 List of supported hardware:
 
