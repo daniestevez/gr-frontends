@@ -46,9 +46,11 @@ interest that you want to receive.
 
 List of supported hardware:
 
-  * `rtlsdr` Receivers using an RTL-SDR chipset.
+  * `airspy` Airspy devices.
   * `fcdpp` FUNcube Dongle Pro+. It is necessary to install
     [gr-fcdproplus](https://github.com/dl1ksv/gr-fcdproplus).
+  * `rtlsdr` Receivers using an RTL-SDR chipset.
+
 
 ### Recordings
 
