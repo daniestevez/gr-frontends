@@ -78,5 +78,13 @@ The available audio streamers are the following:
   * `audio_streamer` It uses the *Audio source* block in GNUradio, so it will
     use whatever sound system is available for GNUradio in your machine.
 
+    To stream from Linux pulseaudio, use `./audio_streamer.py --device=pulse`.
+    It might be necessary to configure the pulseaudio socket:
+    ```
+    $ id -u
+    1001
+    $ PULSE_SERVER=unix:/run/user/1001/pulse ./audio_streamer.py --device=pulse
+    ```
+
 *Hint:* In Linux you can use pulseaudio and pavucontrol or `snd-aloop` as a
  virtual audio cable between different applications.
