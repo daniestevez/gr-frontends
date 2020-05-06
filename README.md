@@ -12,6 +12,13 @@ The main goal of this repository is to be used with
 [gr-satellites](https://github.com/daniestevez/gr-satellites), but it can be
 used with many other pieces of software.
 
+## Branches
+
+There are two branches:
+
+* master. Supports GNU Radio 3.8
+* maint-3.7. Supports GNU Radio 3.7
+
 ## Usage
 
 You can open the `.grc` file with `gnuradio-companion` and edit the parameters
