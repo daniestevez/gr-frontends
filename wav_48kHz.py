@@ -1,30 +1,36 @@
-#!/usr/bin/env python2
-##################################################
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+#
+# SPDX-License-Identifier: GPL-3.0
+#
 # GNU Radio Python Flow Graph
-# Title: WAV 48KHz file streamer 
+# Title: WAV 48KHz file streamer
 # Author: Daniel Estevez
 # Description: Streams a WAV 48kHz file
-# Generated: Fri Aug 26 21:05:18 2016
-##################################################
+# GNU Radio version: 3.8.1.0
 
 from gnuradio import blocks
-from gnuradio import eng_notation
 from gnuradio import gr
-from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
-from optparse import OptionParser
+import sys
+import signal
+from argparse import ArgumentParser
+from gnuradio.eng_arg import eng_float, intx
+from gnuradio import eng_notation
+
 
 class wav_48kHz(gr.top_block):
 
-    def __init__(self, input_file="", port=7355, destination="localhost"):
+    def __init__(self, destination='localhost', input_file='', port=7355):
         gr.top_block.__init__(self, "WAV 48KHz file streamer ")
 
         ##################################################
         # Parameters
         ##################################################
+        self.destination = destination
         self.input_file = input_file
         self.port = port
-        self.destination = destination
 
         ##################################################
         # Blocks
@@ -34,13 +40,21 @@ class wav_48kHz(gr.top_block):
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_short*1, 48000,True)
         self.blocks_float_to_short_0 = blocks.float_to_short(1, 32767)
 
+
+
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.blocks_float_to_short_0, 0), (self.blocks_throttle_0, 0))    
-        self.connect((self.blocks_throttle_0, 0), (self.blocks_udp_sink_0, 0))    
-        self.connect((self.blocks_wavfile_source_0, 0), (self.blocks_float_to_short_0, 0))    
+        self.connect((self.blocks_float_to_short_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.blocks_throttle_0, 0), (self.blocks_udp_sink_0, 0))
+        self.connect((self.blocks_wavfile_source_0, 0), (self.blocks_float_to_short_0, 0))
 
+
+    def get_destination(self):
+        return self.destination
+
+    def set_destination(self, destination):
+        self.destination = destination
 
     def get_input_file(self):
         return self.input_file
@@ -54,22 +68,42 @@ class wav_48kHz(gr.top_block):
     def set_port(self, port):
         self.port = port
 
-    def get_destination(self):
-        return self.destination
 
-    def set_destination(self, destination):
-        self.destination = destination
+
+
+def argument_parser():
+    description = 'Streams a WAV 48kHz file'
+    parser = ArgumentParser(description=description)
+    parser.add_argument(
+        "--destination", dest="destination", type=str, default='localhost',
+        help="Set localhost [default=%(default)r]")
+    parser.add_argument(
+        "-f", "--input-file", dest="input_file", type=str, default='',
+        help="Set file [default=%(default)r]")
+    parser.add_argument(
+        "--port", dest="port", type=intx, default=7355,
+        help="Set port [default=%(default)r]")
+    return parser
+
+
+def main(top_block_cls=wav_48kHz, options=None):
+    if options is None:
+        options = argument_parser().parse_args()
+    tb = top_block_cls(destination=options.destination, input_file=options.input_file, port=options.port)
+
+    def sig_handler(sig=None, frame=None):
+        tb.stop()
+        tb.wait()
+
+        sys.exit(0)
+
+    signal.signal(signal.SIGINT, sig_handler)
+    signal.signal(signal.SIGTERM, sig_handler)
+
+    tb.start()
+
+    tb.wait()
 
 
 if __name__ == '__main__':
-    parser = OptionParser(option_class=eng_option, usage="%prog: [options]")
-    parser.add_option("-f", "--input-file", dest="input_file", type="string", default="",
-        help="Set file [default=%default]")
-    parser.add_option("", "--port", dest="port", type="intx", default=7355,
-        help="Set port [default=%default]")
-    parser.add_option("", "--destination", dest="destination", type="string", default="localhost",
-        help="Set localhost [default=%default]")
-    (options, args) = parser.parse_args()
-    tb = wav_48kHz(input_file=options.input_file, port=options.port, destination=options.destination)
-    tb.start()
-    tb.wait()
+    main()
